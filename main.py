@@ -2,6 +2,7 @@ import yagmail
 import requests
 import os
 from selenium import webdriver
+from datetime import datetime
 import time
 from bs4 import BeautifulSoup
 
@@ -29,33 +30,45 @@ def get_drivers():
     time.sleep(4)
     return driver
 
-
-def main():
-    driver = get_drivers()
-    element = driver.find_element(by="xpath", value="//*[@id='app_indeks']/section[1]/div/div/div[2]/span[2]")
-    return element.text
-
 # print(type(main()))
 
-def auto_email():
-    percentage_change = main().strip(" %")
-    percentage_change = float(percentage_change)
-    if percentage_change < -0.10:
-        print(percentage_change)
-        # if percentage_change > 100:
-        subject = "UPDATE: Current Stock Price Percentage"
-        message = f"""
-        Hello This is to tell you that for your stock it has currently gone down to {percentage_change} 
-        """
-        yag.send(to=receiver, subject=subject, contents=message)
-    else:
-        subject = "Current Stock Price Percentage"
-        message = f"""
-                Hello This is to tell you that for your stock it has currently {percentage_change} 
-                """
-        yag.send(to=receiver, subject=subject, contents=message)
+def auto_email(cleaned_text):
+    subject = "UPDATE: Current Stock Price Percentage"
+    message = f"""
+    Hello This is to tell you that for your stock it has currently gone down to {cleaned_text} 
+    """
+    email = yag.send(to=receiver, subject=subject, contents=message)
+    return email
 
-auto_email()
-print("Email Sent!")
+def clean_text(percent_text):
+    percentage_change = percent_text.strip(" %")
+    return float(percentage_change)
+
+
+def get_price_change():
+    driver = get_drivers()
+    element = driver.find_element(by="xpath", value="//*[@id='app_indeks']/section[1]/div/div/div[2]/span[2]")
+    cleaned = clean_text(element.text)
+    return cleaned
+
+def decision_maker():
+    while True:
+        decision_time = datetime.now()
+        if decision_time.minute == 30:
+            percentage_price_change = get_price_change()
+            if percentage_price_change < -0.10:
+                auto_email(percentage_price_change)
+                print("Email Sent!")
+            time.sleep(60)
+        time.sleep(10)
+
+decision_maker()
+
+
+
+
+
+
+
 
 
