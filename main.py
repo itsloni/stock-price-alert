@@ -13,12 +13,6 @@ print(my_password, sender)
 
 yag = yagmail.SMTP(user=sender, password=my_password)
 
-
-
-
-
-
-
 # def get_stock_price_change_percent():
 url = "https://zse.hr/en/indeks-366/365?isin=HRZB00ICBEX6&tab"
 def get_drivers():
