@@ -71,4 +71,4 @@ python main.py
 
 ## Author
 
-Ayoola (itsloni)
+Ayoola Oluwalonimi Emmanuel (itsloni)
