@@ -1,10 +1,11 @@
 import yagmail
-import requests
 import os
 from selenium import webdriver
 from datetime import datetime
 import time
-from bs4 import BeautifulSoup
+from dotenv import load_dotenv
+load_dotenv()
+
 
 sender = os.getenv("gmail_email")
 receiver = "rielbumba@gmail.com"
