@@ -15,7 +15,7 @@ print(my_password, sender)
 
 yag = yagmail.SMTP(user=sender, password=my_password)
 
-# def get_stock_price_change_percent():
+
 url = "https://zse.hr/en/indeks-366/365?isin=HRZB00ICBEX6&tab"
 def get_drivers():
     options = webdriver.ChromeOptions()
@@ -30,8 +30,6 @@ def get_drivers():
     driver.get(url)
     time.sleep(4)
     return driver
-
-# print(type(main()))
 
 def auto_email(cleaned_text):
     subject = "UPDATE: Current Stock Price Percentage"
